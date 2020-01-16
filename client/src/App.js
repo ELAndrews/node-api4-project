@@ -3,20 +3,31 @@ import "./App.css";
 import axios from "axios";
 
 function App() {
+  const [welcome, setWelcome] = useState("");
   const [name, setName] = useState("");
 
-  useEffect(() => {
+  const handleChange = e => {
+    setName(e.target.value);
+  };
+
+  const handleClick = e => {
     axios
-      .get("/api/welcome")
-      .then(name => {
-        setName(name);
+      .get(`/api/welcome?name=${name}`)
+      .then(welcome => {
+        setWelcome(welcome);
       })
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  };
 
-  return <div className="App">{name}</div>;
+  return (
+    <div className="App">
+      <input type="text" name="name" onChange={handleChange} />
+      <button onClick={handleClick}>Hello?</button>
+      {welcome}
+    </div>
+  );
 }
 
 export default App;
