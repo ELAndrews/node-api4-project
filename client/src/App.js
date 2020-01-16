@@ -1,32 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
+import { withRouter } from "react-router-dom";
 
-function App() {
+function App(props) {
   const [welcome, setWelcome] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get("/api/welcome?name=nick")
-      // .then(res => res.json())
-      .then(welcome => {
-        setWelcome(welcome);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+  const handleChange = e => {
+    setName(e.target.value);
+  };
+
+  const handleClick = e => {
+    props.history.push(`/api/welcome?name=${name}`);
+    window.location.reload();
+  };
 
   return (
     <div className="App">
-      {welcome}
       <div>
-        <h2>Hey there</h2>
+        <p>Hey there</p>
+        <input type="text" name="name" value={name} onChange={handleChange} />
+        <button onClick={handleClick}>Hello?</button>
       </div>
-      <input type="text" name="name" />
-      THIS ISNT WORKING
     </div>
   );
 }
 
-export default App;
+export default withRouter(App);
