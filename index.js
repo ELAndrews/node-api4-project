@@ -8,12 +8,18 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
+app.use(express.static("./client/build"));
+
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+app.get(`/api/welcome`, (req, res) => {
+  res.json(`Hello ${req.query.name}!, how are you today?`);
+});
+
 app.use((req, res) => {
-  res.json(`The API is active!`);
+  res.json(`The API is active! YAY!`);
 });
 
 app.listen(port, () => {

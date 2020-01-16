@@ -4,28 +4,27 @@ import axios from "axios";
 
 function App() {
   const [welcome, setWelcome] = useState("");
-  const [name, setName] = useState("");
 
-  const handleChange = e => {
-    setName(e.target.value);
-  };
-
-  const handleClick = e => {
+  useEffect(() => {
     axios
-      .get(`/api/welcome?name=${name}`)
+      .get("/api/welcome?name=nick")
+      // .then(res => res.json())
       .then(welcome => {
         setWelcome(welcome);
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.log(error);
       });
-  };
+  }, []);
 
   return (
     <div className="App">
-      <input type="text" name="name" onChange={handleChange} />
-      <button onClick={handleClick}>Hello?</button>
       {welcome}
+      <div>
+        <h2>Hey there</h2>
+      </div>
+      <input type="text" name="name" />
+      THIS ISNT WORKING
     </div>
   );
 }
